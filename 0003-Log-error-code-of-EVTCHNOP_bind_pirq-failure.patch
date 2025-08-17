@@ -1,8 +1,8 @@
-From b52ecfd2ee13fd99901b6d596bc3f7796c2ac12f Mon Sep 17 00:00:00 2001
+From 6c7f5015617514c963313dc237946229eb4caeb9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
  <marmarek@invisiblethingslab.com>
 Date: Sat, 30 Jan 2016 01:53:26 +0100
-Subject: [PATCH] Log error code of EVTCHNOP_bind_pirq failure
+Subject: [PATCH 6/8] Log error code of EVTCHNOP_bind_pirq failure
 
 Ease debugging of PCI passthrough problems.
 ---
@@ -10,10 +10,10 @@ Ease debugging of PCI passthrough problems.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/xen/events/events_base.c b/drivers/xen/events/events_base.c
-index 3a791c8485d0..b75bcebc635b 100644
+index 41309d38f78c..369b4c5d6a0d 100644
 --- a/drivers/xen/events/events_base.c
 +++ b/drivers/xen/events/events_base.c
-@@ -522,7 +522,7 @@ static unsigned int __startup_pirq(unsigned int irq)
+@@ -867,7 +867,7 @@ static unsigned int __startup_pirq(struct irq_info *info)
  					BIND_PIRQ__WILL_SHARE : 0;
  	rc = HYPERVISOR_event_channel_op(EVTCHNOP_bind_pirq, &bind_pirq);
  	if (rc != 0) {
@@ -23,5 +23,5 @@ index 3a791c8485d0..b75bcebc635b 100644
  	}
  	evtchn = bind_pirq.port;
 -- 
-2.25.4
+2.50.1
 

@@ -1,8 +1,8 @@
-From 30084b7905d762f550b14cc4ef88530dd5965083 Mon Sep 17 00:00:00 2001
+From e533fee2a2d79b9a831245e900dd514428d8afff Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
  <marmarek@invisiblethingslab.com>
 Date: Thu, 24 Apr 2025 15:45:34 +0200
-Subject: [PATCH] Revert "e1000e: change k1 configuration on MTP and later
+Subject: [PATCH 4/8] Revert "e1000e: change k1 configuration on MTP and later
  platforms"
 
 This change results in a heavy packet loss on some MTL laptops,
@@ -16,10 +16,10 @@ https://github.com/QubesOS/qubes-issues/issues/9896
  3 files changed, 5 insertions(+), 82 deletions(-)
 
 diff --git a/drivers/net/ethernet/intel/e1000e/defines.h b/drivers/net/ethernet/intel/e1000e/defines.h
-index 8294a7c4f122..5e2cfa73f889 100644
+index ba331899d186..c6e81d4f4573 100644
 --- a/drivers/net/ethernet/intel/e1000e/defines.h
 +++ b/drivers/net/ethernet/intel/e1000e/defines.h
-@@ -803,7 +803,4 @@
+@@ -806,7 +806,4 @@
  /* SerDes Control */
  #define E1000_GEN_POLL_TIMEOUT          640
  
@@ -28,7 +28,7 @@ index 8294a7c4f122..5e2cfa73f889 100644
 -
  #endif /* _E1000_DEFINES_H_ */
 diff --git a/drivers/net/ethernet/intel/e1000e/ich8lan.c b/drivers/net/ethernet/intel/e1000e/ich8lan.c
-index 364378133526..2f9655cf5dd9 100644
+index df4e7d781cb1..b23b271c8772 100644
 --- a/drivers/net/ethernet/intel/e1000e/ich8lan.c
 +++ b/drivers/net/ethernet/intel/e1000e/ich8lan.c
 @@ -285,45 +285,6 @@ static void e1000_toggle_lanphypc_pch_lpt(struct e1000_hw *hw)
@@ -126,7 +126,7 @@ index 364378133526..2f9655cf5dd9 100644
  	}
  
  out:
-@@ -4946,18 +4888,6 @@ static s32 e1000_init_hw_ich8lan(struct e1000_hw *hw)
+@@ -4948,18 +4890,6 @@ static s32 e1000_init_hw_ich8lan(struct e1000_hw *hw)
  	u16 i;
  
  	e1000_initialize_hw_bits_ich8lan(hw);
@@ -161,5 +161,5 @@ index 5feb589a9b5f..2504b11c3169 100644
  
  /* Inband Control */
 -- 
-2.49.0
+2.50.1
 
