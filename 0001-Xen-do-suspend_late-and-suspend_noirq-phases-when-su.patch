@@ -1,0 +1,60 @@
+From 2494a66805f171935b81693460109ce433f9cea2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Dav=C3=AD=C3=B0=20Steinn=20Geirsson?= <david@dsg.is>
+Date: Wed, 27 Aug 2025 20:11:24 +0000
+Subject: [PATCH] Xen: do suspend_late and suspend_noirq phases when
+ suspending.
+
+---
+ drivers/xen/manage.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/drivers/xen/manage.c b/drivers/xen/manage.c
+index 0bcac09d5dc5..f19f635d270e 100644
+--- a/drivers/xen/manage.c
++++ b/drivers/xen/manage.c
+@@ -125,6 +125,20 @@ static void do_suspend(void)
+ 		goto out_thaw;
+ 	}
+ 
++	if (xen_use_suspend) {
++		err = dpm_suspend_late(PMSG_SUSPEND);
++		if (err) {
++			pr_err("late suspend of devices failed\n");
++			goto out_thaw;
++		}
++
++		err = dpm_suspend_noirq(PMSG_SUSPEND);
++		if (err) {
++			pr_err("noirq suspend of devices failed\n");
++			goto out_thaw;
++		}
++	}
++
+ 	printk(KERN_DEBUG "suspending xenstore...\n");
+ 	xs_suspend();
+ 
+@@ -149,6 +163,21 @@ static void do_suspend(void)
+ 
+ 	xen_arch_resume();
+ 
++	if (xen_use_suspend) {
++		err = dpm_resume_noirq(PMSG_RESUME);
++		if (err) {
++			pr_err("noirq resume of devices failed\n");
++			goto out_resume;
++		}
++
++		err = dpm_resume_early(PMSG_RESUME);
++		if (err) {
++			pr_err("early resume of devices failed\n");
++			goto out_resume;
++		}
++
++	}
++
+ 	dpm_resume_start(xen_use_suspend ? PMSG_RESUME : (si.cancelled ? PMSG_THAW : PMSG_RESTORE));
+ 
+ 	if (err) {
+-- 
+2.47.2
+
