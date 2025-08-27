@@ -152,6 +152,7 @@ Patch61: xen-events-Add-wakeup-support-to-xen-pirq.patch
 Patch62: xen-pm-use-suspend.patch
 Patch63: xen-pciback-pm-suspend.patch
 Patch64: xen-pciback-pm-runtime.patch
+Patch65: 0001-Xen-do-suspend_late-and-suspend_noirq-phases-when-su.patch
 
 %description
 Qubes Dom0 kernel.
