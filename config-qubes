@@ -66,14 +66,6 @@ CONFIG_SECURITY_YAMA=y
 CONFIG_STACKPROTECTOR=y
 CONFIG_STACKPROTECTOR_STRONG=y
 
-
-################################################################################
-## Disable PCI hotplug to prevent DMA attacks via ExpressCard or Thunderbolt
-## ports. QubesOS/qubes-issues#1673
-
-# CONFIG_HOTPLUG_PCI is not set
-
-
 ################################################################################
 ## Deactivate selinux by default
 
@@ -180,3 +172,14 @@ CONFIG_PREEMPT=y
 ## AMD Threadripper platforms
 CONFIG_PHYSICAL_START=0x200000
 CONFIG_PHYSICAL_ALIGN=0x200000
+
+
+#### dsg changes
+
+CONFIG_PCI_PWRCTRL=y
+CONFIG_PCI_PWRCTRL_SLOT=y
+CONFIG_WQ_POWER_EFFICIENT_DEFAULT=y
+CONFIG_SND_HDA_POWER_SAVE_DEFAULT=10
+CONFIG_HOTPLUG_PCI=y
+
+
